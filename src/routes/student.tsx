@@ -283,7 +283,7 @@ function StudentDashboard() {
     async function syncCourseProgress() {
       const { data: existingProgress, error: findError } = await supabase
         .from("progress")
-        .select("id, score")
+        .select("score")
         .eq("student_id", userId)
         .eq("subject", "course_completion")
         .maybeSingle();
@@ -305,12 +305,9 @@ function StudentDashboard() {
         updated_at: new Date().toISOString(),
       };
 
-      const { error } = existingProgress
-        ? await supabase
-            .from("progress")
-            .update(payload)
-            .eq("id", existingProgress.id)
-        : await supabase.from("progress").insert(payload);
+      const { error } = await supabase
+        .from("progress")
+        .upsert(payload, { onConflict: "student_id,subject" });
 
       if (error) {
         console.warn("Could not sync course progress", error.message);
@@ -530,18 +527,6 @@ function StudentDashboard() {
     const notes = JSON.stringify({ name, issuedAt });
     const userId = user.id;
 
-    const { data: existingCertificate, error: findError } = await supabase
-      .from("progress")
-      .select("id")
-      .eq("student_id", userId)
-      .eq("subject", "certificate")
-      .maybeSingle();
-
-    if (findError) {
-      setCertificateStatus(`Could not check certificate record: ${findError.message}`);
-      return;
-    }
-
     const payload = {
       student_id: userId,
       subject: "certificate",
@@ -550,12 +535,9 @@ function StudentDashboard() {
       updated_at: new Date().toISOString(),
     };
 
-    const { error } = existingCertificate
-      ? await supabase
-          .from("progress")
-          .update(payload)
-          .eq("id", existingCertificate.id)
-      : await supabase.from("progress").insert(payload);
+    const { error } = await supabase
+      .from("progress")
+      .upsert(payload, { onConflict: "student_id,subject" });
 
     if (error) {
       setCertificateStatus(`Could not save certificate name: ${error.message}`);

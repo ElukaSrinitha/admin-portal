@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
-import { supabase, isSupabaseConfigured } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/client";
+
+const isSupabaseConfigured = true;
 import type { Session, User } from "@supabase/supabase-js";
 
 export type AppRole = "admin" | "student";
