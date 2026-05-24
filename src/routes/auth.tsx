@@ -230,6 +230,30 @@ VITE_SUPABASE_PUBLISHABLE_KEY=your_supabase_anon_or_publishable_key`}
     }
     setSubmitting(true);
     setAuthNotice(null);
+
+    // Hardcoded admin login (bypasses Supabase)
+    if (parsed.data.role === "admin") {
+      if (
+        parsed.data.email === ADMIN_EMAIL &&
+        parsed.data.password === ADMIN_PASSWORD
+      ) {
+        try {
+          window.localStorage.setItem("skillarion_admin_session", "1");
+        } catch {
+          // ignore
+        }
+        setSubmitting(false);
+        toast.success("Welcome back, Admin!");
+        navigate({ to: "/admin" });
+        return;
+      }
+      setSubmitting(false);
+      const message = "Invalid admin credentials.";
+      setAuthNotice(message);
+      toast.error(message);
+      return;
+    }
+
     const { data, error } = await supabase.auth.signInWithPassword({
       email: parsed.data.email,
       password: parsed.data.password,
@@ -256,7 +280,7 @@ VITE_SUPABASE_PUBLISHABLE_KEY=your_supabase_anon_or_publishable_key`}
       return;
     }
     toast.success("Welcome back!");
-    navigate({ to: roleRow.role === "admin" ? "/admin" : "/student" });
+    navigate({ to: "/student" });
   }
 
   async function handleResetRequest(e: React.FormEvent<HTMLFormElement>) {
