@@ -11,7 +11,45 @@ import { useAuth } from "@/hooks/use-auth";
 import { toast } from "sonner";
 import logo from "@/assets/logo.jpg";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Eye, EyeOff } from "lucide-react";
+
+const ADMIN_EMAIL = "skillariondevelopment9@gmail.com";
+const ADMIN_PASSWORD = "skill@123";
+
+function PasswordInput({
+  id,
+  name,
+  required,
+  defaultValue,
+}: {
+  id: string;
+  name?: string;
+  required?: boolean;
+  defaultValue?: string;
+}) {
+  const [show, setShow] = useState(false);
+  return (
+    <div className="relative">
+      <Input
+        id={id}
+        name={name ?? id}
+        type={show ? "text" : "password"}
+        required={required}
+        defaultValue={defaultValue}
+        className="pr-10"
+      />
+      <button
+        type="button"
+        onClick={() => setShow((s) => !s)}
+        className="absolute inset-y-0 right-0 flex items-center px-3 text-muted-foreground hover:text-foreground"
+        aria-label={show ? "Hide password" : "Show password"}
+        tabIndex={-1}
+      >
+        {show ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+      </button>
+    </div>
+  );
+}
 
 export const Route = createFileRoute("/auth")({ component: AuthPage });
 
