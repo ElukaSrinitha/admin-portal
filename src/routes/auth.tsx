@@ -486,7 +486,11 @@ function FormField({ id, label, type = "text" }: { id: string; label: string; ty
   return (
     <div className="space-y-2">
       <Label htmlFor={id}>{label}</Label>
-      <Input id={id} name={id} type={type} required />
+      {type === "password" ? (
+        <PasswordInput id={id} required />
+      ) : (
+        <Input id={id} name={id} type={type} required />
+      )}
     </div>
   );
 }
