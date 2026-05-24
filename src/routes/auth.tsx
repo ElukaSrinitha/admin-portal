@@ -391,14 +391,25 @@ VITE_SUPABASE_PUBLISHABLE_KEY=your_supabase_anon_or_publishable_key`}
               </TabsList>
 
               <TabsContent value="login">
-                <form onSubmit={handleLogin} className="mt-4 space-y-4">
+                <form key={roleTab} onSubmit={handleLogin} className="mt-4 space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="li-email">Email</Label>
-                    <Input id="li-email" name="email" type="email" required />
+                    <Input
+                      id="li-email"
+                      name="email"
+                      type="email"
+                      required
+                      defaultValue={roleTab === "admin" ? ADMIN_EMAIL : ""}
+                    />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="li-password">Password</Label>
-                    <Input id="li-password" name="password" type="password" required />
+                    <PasswordInput
+                      id="li-password"
+                      name="password"
+                      required
+                      defaultValue={roleTab === "admin" ? ADMIN_PASSWORD : ""}
+                    />
                   </div>
                   <Button type="submit" disabled={submitting} className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
                     {submitting ? "Signing in…" : `Login as ${roleTab}`}
