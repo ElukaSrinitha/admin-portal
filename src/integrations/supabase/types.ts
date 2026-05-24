@@ -14,120 +14,16 @@ export type Database = {
   }
   public: {
     Tables: {
-      course_settings: {
-        Row: {
-          id: string
-          released_at: string | null
-          released_by: string | null
-          updated_at: string
-        }
-        Insert: {
-          id: string
-          released_at?: string | null
-          released_by?: string | null
-          updated_at?: string
-        }
-        Update: {
-          id?: string
-          released_at?: string | null
-          released_by?: string | null
-          updated_at?: string
-        }
-        Relationships: []
-      }
-      profiles: {
-        Row: {
-          college_name: string | null
-          contact: string | null
-          created_at: string
-          date_of_birth: string | null
-          email: string
-          full_name: string
-          id: string
-        }
-        Insert: {
-          college_name?: string | null
-          contact?: string | null
-          created_at?: string
-          date_of_birth?: string | null
-          email: string
-          full_name: string
-          id: string
-        }
-        Update: {
-          college_name?: string | null
-          contact?: string | null
-          created_at?: string
-          date_of_birth?: string | null
-          email?: string
-          full_name?: string
-          id?: string
-        }
-        Relationships: []
-      }
-      progress: {
-        Row: {
-          created_at: string
-          id: string
-          notes: string | null
-          score: number
-          student_id: string
-          subject: string
-          updated_at: string
-        }
-        Insert: {
-          created_at?: string
-          id?: string
-          notes?: string | null
-          score?: number
-          student_id: string
-          subject: string
-          updated_at?: string
-        }
-        Update: {
-          created_at?: string
-          id?: string
-          notes?: string | null
-          score?: number
-          student_id?: string
-          subject?: string
-          updated_at?: string
-        }
-        Relationships: []
-      }
-      user_roles: {
-        Row: {
-          id: string
-          role: Database["public"]["Enums"]["app_role"]
-          user_id: string
-        }
-        Insert: {
-          id?: string
-          role: Database["public"]["Enums"]["app_role"]
-          user_id: string
-        }
-        Update: {
-          id?: string
-          role?: Database["public"]["Enums"]["app_role"]
-          user_id?: string
-        }
-        Relationships: []
-      }
+      [_ in never]: never
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      has_role: {
-        Args: {
-          _role: Database["public"]["Enums"]["app_role"]
-          _user_id: string
-        }
-        Returns: boolean
-      }
+      [_ in never]: never
     }
     Enums: {
-      app_role: "admin" | "student"
+      [_ in never]: never
     }
     CompositeTypes: {
       [_ in never]: never
@@ -254,8 +150,6 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {
-      app_role: ["admin", "student"],
-    },
+    Enums: {},
   },
 } as const
